@@ -65,6 +65,10 @@ func puzzleStatesEqual(state1 PuzzleState, state2 PuzzleState) bool {
 	return true
 }
 
+// TODO -
+// Create get successors function
+// Create bfs to find shortest path
+
 func main() {
 	fmt.Println(loadPuzzle("GizehPuzzle.txt"))
 }
