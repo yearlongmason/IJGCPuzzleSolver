@@ -11,7 +11,7 @@ Throughout the game you collect ancient relics:
 
 At 3 different points in the game there are logic puzzles that use the ancient relics to fill in a grid. Here is an example of the first puzzle that can be found in Gizeh, Egypt:
 
-![Egypt Puzzle](assets/EgyptPuzzle.png)
+![Gizeh Puzzle](assets/GizehPuzzle.png)
 
 The puzzle can also be represented as a grid with 4 columns and 8 rows. Here is such a grid where 0 represents a slot that is not activated, 1 represents a slot that is activated, and . represents the lack of a slot:
 
