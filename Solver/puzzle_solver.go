@@ -14,7 +14,8 @@ type PuzzleState struct {
 }
 
 func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
-	// Create the hashable state from the
+	// Create and return a new puzzle state given the relics used and the state of the puzzle
+	// Create a string representation of the state from the state slice to be kept track of in a set
 	var hashableState strings.Builder
 	for _, row := range state {
 		// Get the current row, and replace all instances of L and R with 1 to avoid
@@ -38,22 +39,14 @@ func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
 }
 
 func stringToPuzzleState(stringPuzzleState string) [][]string {
-	// Create the variables needed to make an instance of PuzzleState
+	// Take in a string representing a puzzle state and return the puzzle state as a slice
 	slicePuzzleState := make([][]string, 0)
 
 	// Loop through each row in the puzzle input
 	for row := range strings.SplitSeq(stringPuzzleState, "\n") {
-		// Create a new row to keep track of
+		// Remove whitespace from the row and add a new row to the slice
 		row = strings.TrimSpace(row)
-		currentRow := make([]string, 0)
-
-		// Add each character to the new row
-		for i := 0; i < len(row); i++ {
-			currentRow = append(currentRow, string(row[i]))
-		}
-
-		// Add the new row to the puzzle state
-		slicePuzzleState = append(slicePuzzleState, currentRow)
+		slicePuzzleState = append(slicePuzzleState, strings.Split(row, ""))
 	}
 
 	return slicePuzzleState
@@ -66,7 +59,8 @@ func loadPuzzle(fileName string) PuzzleState {
 		fmt.Printf("Error, could not read file: %s\n", fileName)
 	}
 
-	state := stringToPuzzleState(string(stringPuzzleState))
+	// Get the puzzle state as a 2D slice of strings
+	var state [][]string = stringToPuzzleState(string(stringPuzzleState))
 	return createNewPuzzleState(0, state)
 }
 
@@ -91,10 +85,11 @@ func puzzleStatesEqual(state1 PuzzleState, state2 PuzzleState) bool {
 	return true
 }
 
-// TODO -
-// Create get successors function
-// Create bfs to find shortest path
-func turnRelicLeft()  {}
+func turnRelicLeft(row int, col int, currentState PuzzleState) PuzzleState {
+	//updatedState := currentState.state
+
+	return createNewPuzzleState(currentState.relicsUsed+1, currentState.state)
+}
 func turnRelicRight() {}
 func getSuccessors()  {}
 
