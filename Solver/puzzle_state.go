@@ -49,40 +49,6 @@ func (puzzleState PuzzleState) printPuzzleState() {
 	}
 }
 
-func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
-	// Create and return a new puzzle state given the relics used and the state of the puzzle
-	return PuzzleState{
-		relicsUsed: relicsUsed,
-		state:      state,
-	}
-}
-
-func stringToPuzzleState(stringPuzzleState string) [][]string {
-	// Take in a string representing a puzzle state and return the puzzle state as a slice
-	slicePuzzleState := make([][]string, 0)
-
-	// Loop through each row in the puzzle input
-	for row := range strings.SplitSeq(stringPuzzleState, "\n") {
-		// Remove whitespace from the row and add a new row to the slice
-		row = strings.TrimSpace(row)
-		slicePuzzleState = append(slicePuzzleState, strings.Split(row, ""))
-	}
-
-	return slicePuzzleState
-}
-
-func loadPuzzle(fileName string) PuzzleState {
-	// Load a puzzle from a file and return the puzzle state
-	stringPuzzleState, err := os.ReadFile("../Puzzles/" + fileName)
-	if err != nil {
-		fmt.Printf("Error, could not read file: %s\n", fileName)
-	}
-
-	// Get the puzzle state as a 2D slice of strings
-	var state [][]string = stringToPuzzleState(string(stringPuzzleState))
-	return createNewPuzzleState(0, state)
-}
-
 func puzzleStatesEqual(state1 PuzzleState, state2 PuzzleState) bool {
 	// Return true if the puzzle states are equal, otherwise return false
 	// Make sure all puzzle state attributes are equal
@@ -114,4 +80,31 @@ func isValidSlot(row int, col int, currentState PuzzleState) bool {
 	}
 
 	return true
+}
+
+func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
+	// Create and return a new puzzle state given the relics used and the state of the puzzle
+	return PuzzleState{
+		relicsUsed: relicsUsed,
+		state:      state,
+	}
+}
+
+func loadPuzzle(fileName string) PuzzleState {
+	// Load a puzzle from a file and return the puzzle state
+	stringPuzzleState, err := os.ReadFile("../Puzzles/" + fileName)
+	if err != nil {
+		fmt.Printf("Error, could not read file: %s\n", fileName)
+	}
+
+	// Get the puzzle state as a 2D slice of strings
+	slicePuzzleState := make([][]string, 0)
+
+	// Loop through each row in the puzzle input and add to the slice puzzle state
+	for row := range strings.SplitSeq(string(stringPuzzleState), "\n") {
+		row = strings.TrimSpace(row)
+		slicePuzzleState = append(slicePuzzleState, strings.Split(row, ""))
+	}
+
+	return createNewPuzzleState(0, slicePuzzleState)
 }
