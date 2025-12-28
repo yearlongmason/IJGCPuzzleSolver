@@ -6,11 +6,12 @@ import (
 
 func TestLoadPuzzle3x3(t *testing.T) {
 	// Hardcoded expected value
-	expected := PuzzleState{3, 3,
+	expected := PuzzleState{3, 3, 0,
 		[][]string{
 			{"0", "0", "0"},
 			{"0", "0", "0"},
 			{"0", "0", "0"}},
+		"000|000|000|",
 	}
 
 	// Get the actual puzzle from the 3x3Puzzle.txt test file
@@ -24,10 +25,11 @@ func TestLoadPuzzle3x3(t *testing.T) {
 
 func TestLoadPuzzle2x2(t *testing.T) {
 	// Hardcoded expected value
-	expected := PuzzleState{2, 2,
+	expected := PuzzleState{2, 2, 0,
 		[][]string{
 			{"0", "0"},
 			{"0", "0"}},
+		"00|00|",
 	}
 
 	// Get the actual puzzle from the 3x3Puzzle.txt test file

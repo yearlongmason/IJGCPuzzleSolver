@@ -8,15 +8,42 @@ import (
 )
 
 type PuzzleState struct {
-	rows, columns int
-	state         [][]string
+	rows, columns, relicsUsed int
+	state                     [][]string
+	hashableState             string
 }
 
-func stringToPuzzleState(stringPuzzleState string) PuzzleState {
+func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
+	// Create the hashable state from the
+	hashableState := ""
+	activeSlots := []string{"1", "L", "R"}
+	for _, row := range state {
+		for _, character := range row {
+			// Add the current character depending on what it is
+			// Remove L and R to avoid exploring duplicate paths to reduce search space
+			if character == "." {
+				hashableState += "."
+			} else if slices.Contains(activeSlots, character) {
+				hashableState += "1"
+			} else {
+				hashableState += "0"
+			}
+		}
+		hashableState += "|" // Add separator between rows
+	}
+
+	return PuzzleState{
+		rows:          len(state),
+		columns:       len(state[0]),
+		relicsUsed:    relicsUsed,
+		state:         state,
+		hashableState: hashableState,
+	}
+}
+
+func stringToPuzzleState(stringPuzzleState string) [][]string {
 	// Create the variables needed to make an instance of PuzzleState
 	slicePuzzleState := make([][]string, 0)
-	numRows := len(strings.Split(stringPuzzleState, "\n"))
-	numCols := len(strings.TrimSpace(strings.Split(stringPuzzleState, "\n")[0]))
 
 	// Loop through each row in the puzzle input
 	for row := range strings.SplitSeq(stringPuzzleState, "\n") {
@@ -33,9 +60,7 @@ func stringToPuzzleState(stringPuzzleState string) PuzzleState {
 		slicePuzzleState = append(slicePuzzleState, currentRow)
 	}
 
-	// Create and return a new PuzzleState
-	newPuzzleState := PuzzleState{numRows, numCols, slicePuzzleState}
-	return newPuzzleState
+	return slicePuzzleState
 }
 
 func loadPuzzle(fileName string) PuzzleState {
@@ -45,13 +70,18 @@ func loadPuzzle(fileName string) PuzzleState {
 		fmt.Printf("Error, could not read file: %s\n", fileName)
 	}
 
-	return stringToPuzzleState(string(stringPuzzleState))
+	state := stringToPuzzleState(string(stringPuzzleState))
+	return createNewPuzzleState(0, state)
 }
 
 func puzzleStatesEqual(state1 PuzzleState, state2 PuzzleState) bool {
 	// Return true if the puzzle states are equal, otherwise return false
-	// Basic check to make sure the puzzle states are the same size
-	if state1.rows != state2.rows || state1.columns != state2.columns {
+	// Make sure all puzzle state attributes are equal
+	rowsEqual := state1.rows == state2.rows
+	columnsEqual := state1.columns == state2.columns
+	relicsUsedEqual := state1.relicsUsed == state2.relicsUsed
+	hashableStateEqual := state1.hashableState == state2.hashableState
+	if !rowsEqual || !columnsEqual || !relicsUsedEqual || !hashableStateEqual {
 		return false
 	}
 
@@ -73,5 +103,5 @@ func turnRelicRight() {}
 func getSuccessors()  {}
 
 func main() {
-	fmt.Println(loadPuzzle("GizehPuzzle.txt"))
+	fmt.Println(loadPuzzle("3x3Puzzle.txt"))
 }
