@@ -122,8 +122,14 @@ func turnRelicLeft(row int, col int, currentState PuzzleState) PuzzleState {
 	return createNewPuzzleState(currentState.relicsUsed+1, updatedState)
 }
 
-func turnRelicRight() {}
-func getSuccessors()  {}
+func turnRelicRight(row int, col int, currentState PuzzleState) PuzzleState {
+	updatedState := currentState.state
+	updatedState[row][col] = "R"
+
+	return createNewPuzzleState(currentState.relicsUsed+1, updatedState)
+}
+
+func getSuccessors() {}
 
 func main() {
 	fmt.Println(loadPuzzle("3x3Puzzle.txt"))
