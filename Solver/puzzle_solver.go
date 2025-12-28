@@ -24,6 +24,13 @@ func (puzzleState PuzzleState) getNumColumns() int {
 	return len(puzzleState.state[0])
 }
 
+func (puzzleState PuzzleState) printPuzzleState() {
+	// Getter for the number of rows in a puzzle
+	for _, row := range puzzleState.state {
+		fmt.Println(strings.Join(row, ""))
+	}
+}
+
 func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
 	// Create and return a new puzzle state given the relics used and the state of the puzzle
 	// Create a string representation of the state from the state slice to be kept track of in a set
@@ -123,6 +130,11 @@ func turnRelicLeft(row int, col int, currentState PuzzleState) PuzzleState {
 		newRow := row + change[0]
 		newCol := col + change[1]
 		if isValidSlot(newRow, newCol, currentState) {
+			// If the current slot is covered by a relic just skip over it
+			isAlreadyActive := slices.Contains([]string{"L", "R", "1"}, updatedState[newRow][newCol])
+			if isAlreadyActive {
+				continue
+			}
 			updatedState[newRow][newCol] = "1"
 		}
 	}
@@ -135,12 +147,77 @@ func turnRelicRight(row int, col int, currentState PuzzleState) PuzzleState {
 	updatedState := currentState.state
 	updatedState[row][col] = "R"
 
+	// Mark all slots on the row as activated until an invalid slot is hit
+	// Look at entire row ahead
+	for currentCol := col + 1; currentCol < currentState.getNumColumns(); currentCol++ {
+		if isValidSlot(row, currentCol, currentState) {
+			// If the current slot is covered by a relic just skip over it
+			isAlreadyActive := slices.Contains([]string{"L", "R", "1"}, updatedState[row][currentCol])
+			if isAlreadyActive {
+				continue
+			}
+			updatedState[row][currentCol] = "1"
+		} else {
+			break
+		}
+	}
+	// Look at entire row behind
+	for currentCol := col - 1; currentCol >= 0; currentCol-- {
+		if isValidSlot(row, currentCol, currentState) {
+			// If the current slot is covered by a relic just skip over it
+			isAlreadyActive := slices.Contains([]string{"L", "R", "1"}, updatedState[row][currentCol])
+			if isAlreadyActive {
+				continue
+			}
+			updatedState[row][currentCol] = "1"
+		} else {
+			break
+		}
+	}
+
+	// Mark all slots on the column as activated until an invalid slot is hit
+	// Look at entire column below
+	for currentRow := row + 1; currentRow < currentState.getNumRows(); currentRow++ {
+		if isValidSlot(currentRow, col, currentState) {
+			// If the current slot is covered by a relic just skip over it
+			isAlreadyActive := slices.Contains([]string{"L", "R", "1"}, updatedState[currentRow][col])
+			if isAlreadyActive {
+				continue
+			}
+			updatedState[currentRow][col] = "1"
+		} else {
+			break
+		}
+	}
+	// Look at entire column above
+	for currentRow := row - 1; currentRow >= 0; currentRow-- {
+		if isValidSlot(currentRow, col, currentState) {
+			// If the current slot is covered by a relic just skip over it
+			isAlreadyActive := slices.Contains([]string{"L", "R", "1"}, updatedState[currentRow][col])
+			if isAlreadyActive {
+				continue
+			}
+			updatedState[currentRow][col] = "1"
+		} else {
+			break
+		}
+	}
+
 	return createNewPuzzleState(currentState.relicsUsed+1, updatedState)
 }
 
 func getSuccessors() {}
 
 func main() {
-	fmt.Println(loadPuzzle("3x3Puzzle.txt"))
-	fmt.Println(turnRelicLeft(1, 1, loadPuzzle("GizehPuzzle.txt")))
+	//fmt.Println(loadPuzzle("3x3Puzzle.txt"))
+	//fmt.Println(turnRelicLeft(1, 1, loadPuzzle("GizehPuzzle.txt")))
+	puzzle5x5 := createNewPuzzleState(0, [][]string{
+		{"0", "0", "0", "0", "0"},
+		{"0", "0", "0", "0", "0"},
+		{"0", "0", "0", "0", "0"},
+		{"0", "0", "0", "0", "0"},
+		{"0", "0", "0", "0", "0"}})
+	puzzle5x5 = turnRelicRight(2, 2, puzzle5x5)
+	puzzle5x5 = turnRelicLeft(1, 1, puzzle5x5)
+	puzzle5x5.printPuzzleState()
 }
