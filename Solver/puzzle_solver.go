@@ -24,13 +24,12 @@ func (puzzleState PuzzleState) getNumColumns() int {
 }
 
 func (puzzleState PuzzleState) getHashableState() string {
-	// Getter for finding the number of columns in a puzzle state
-	// This assumes that all columns are the same number of rows which they should be
+	// Getter for a hashable state
 	// Create a string representation of the state from the state slice to be kept track of in a set
+	// We only want to keep track of active and inactive slots, so replace relics with "1"
 	var hashableState strings.Builder
 	for _, row := range puzzleState.state {
-		// Get the current row, and replace all instances of L and R with 1 to avoid
-		// searching already explored paths
+		// Get the current row, and replace all instances of "L" and "R" with "1"
 		currentRow := strings.Join(row, "")
 		currentRow = strings.ReplaceAll(currentRow, "L", "1")
 		currentRow = strings.ReplaceAll(currentRow, "R", "1")
@@ -52,20 +51,6 @@ func (puzzleState PuzzleState) printPuzzleState() {
 
 func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
 	// Create and return a new puzzle state given the relics used and the state of the puzzle
-	// Create a string representation of the state from the state slice to be kept track of in a set
-	var hashableState strings.Builder
-	for _, row := range state {
-		// Get the current row, and replace all instances of L and R with 1 to avoid
-		// searching already explored paths
-		currentRow := strings.Join(row, "")
-		currentRow = strings.ReplaceAll(currentRow, "L", "1")
-		currentRow = strings.ReplaceAll(currentRow, "R", "1")
-
-		// Build on existing string
-		hashableState.WriteString(currentRow)
-		hashableState.WriteString("|") // Add separator between rows
-	}
-
 	return PuzzleState{
 		relicsUsed: relicsUsed,
 		state:      state,
@@ -132,7 +117,7 @@ func isValidSlot(row int, col int, currentState PuzzleState) bool {
 }
 
 func turnRelicLeft(row int, col int, currentState PuzzleState) PuzzleState {
-	// Activate all 8 valid slots surrounding the current slot
+	// Activate all 8 valid slots surrounding the current slot and return a new PuzzleState
 	// Create new updated state and set the current cell to "L" to signify a relic turned left
 	updatedState := currentState.state
 	updatedState[row][col] = "L"
@@ -162,6 +147,8 @@ func turnRelicLeft(row int, col int, currentState PuzzleState) PuzzleState {
 }
 
 func turnRelicRight(row int, col int, currentState PuzzleState) PuzzleState {
+	// Activate all slots on the same row and column until an invalid slot is hit
+	// Return a new PuzzleState
 	updatedState := currentState.state
 	updatedState[row][col] = "R"
 
