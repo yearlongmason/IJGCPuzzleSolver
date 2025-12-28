@@ -8,9 +8,8 @@ import (
 )
 
 type PuzzleState struct {
-	relicsUsed    int
-	state         [][]string
-	hashableState string
+	relicsUsed int
+	state      [][]string
 }
 
 func (puzzleState PuzzleState) getNumRows() int {
@@ -22,6 +21,26 @@ func (puzzleState PuzzleState) getNumColumns() int {
 	// Getter for finding the number of columns in a puzzle state
 	// This assumes that all columns are the same number of rows which they should be
 	return len(puzzleState.state[0])
+}
+
+func (puzzleState PuzzleState) getHashableState() string {
+	// Getter for finding the number of columns in a puzzle state
+	// This assumes that all columns are the same number of rows which they should be
+	// Create a string representation of the state from the state slice to be kept track of in a set
+	var hashableState strings.Builder
+	for _, row := range puzzleState.state {
+		// Get the current row, and replace all instances of L and R with 1 to avoid
+		// searching already explored paths
+		currentRow := strings.Join(row, "")
+		currentRow = strings.ReplaceAll(currentRow, "L", "1")
+		currentRow = strings.ReplaceAll(currentRow, "R", "1")
+
+		// Build on existing string
+		hashableState.WriteString(currentRow)
+		hashableState.WriteString("|") // Add separator between rows
+	}
+
+	return hashableState.String()
 }
 
 func (puzzleState PuzzleState) printPuzzleState() {
@@ -48,9 +67,8 @@ func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
 	}
 
 	return PuzzleState{
-		relicsUsed:    relicsUsed,
-		state:         state,
-		hashableState: hashableState.String(),
+		relicsUsed: relicsUsed,
+		state:      state,
 	}
 }
 
@@ -86,7 +104,7 @@ func puzzleStatesEqual(state1 PuzzleState, state2 PuzzleState) bool {
 	rowsEqual := state1.getNumRows() == state2.getNumRows()
 	columnsEqual := state1.getNumColumns() == state2.getNumColumns()
 	relicsUsedEqual := state1.relicsUsed == state2.relicsUsed
-	hashableStateEqual := state1.hashableState == state2.hashableState
+	hashableStateEqual := state1.getHashableState() == state2.getHashableState()
 	if !rowsEqual || !columnsEqual || !relicsUsedEqual || !hashableStateEqual {
 		return false
 	}
@@ -218,6 +236,7 @@ func main() {
 		{"0", "0", "0", "0", "0"},
 		{"0", "0", "0", "0", "0"}})
 	puzzle5x5 = turnRelicRight(2, 2, puzzle5x5)
-	puzzle5x5 = turnRelicLeft(1, 1, puzzle5x5)
+	//puzzle5x5 = turnRelicLeft(1, 1, puzzle5x5)
 	puzzle5x5.printPuzzleState()
+	fmt.Println(puzzle5x5.getHashableState())
 }
