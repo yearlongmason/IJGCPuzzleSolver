@@ -15,21 +15,17 @@ type PuzzleState struct {
 
 func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
 	// Create the hashable state from the
-	hashableState := ""
-	activeSlots := []string{"1", "L", "R"}
+	var hashableState strings.Builder
 	for _, row := range state {
-		for _, character := range row {
-			// Add the current character depending on what it is
-			// Remove L and R to avoid exploring duplicate paths to reduce search space
-			if character == "." {
-				hashableState += "."
-			} else if slices.Contains(activeSlots, character) {
-				hashableState += "1"
-			} else {
-				hashableState += "0"
-			}
-		}
-		hashableState += "|" // Add separator between rows
+		// Get the current row, and replace all instances of L and R with 1 to avoid
+		// searching already explored paths
+		currentRow := strings.Join(row, "")
+		currentRow = strings.ReplaceAll(currentRow, "L", "1")
+		currentRow = strings.ReplaceAll(currentRow, "R", "1")
+
+		// Build on existing string
+		hashableState.WriteString(currentRow)
+		hashableState.WriteString("|") // Add separator between rows
 	}
 
 	return PuzzleState{
@@ -37,7 +33,7 @@ func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
 		columns:       len(state[0]),
 		relicsUsed:    relicsUsed,
 		state:         state,
-		hashableState: hashableState,
+		hashableState: hashableState.String(),
 	}
 }
 
