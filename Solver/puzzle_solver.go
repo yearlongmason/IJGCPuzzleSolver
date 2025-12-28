@@ -85,14 +85,47 @@ func puzzleStatesEqual(state1 PuzzleState, state2 PuzzleState) bool {
 	return true
 }
 
-func turnRelicLeft(row int, col int, currentState PuzzleState) PuzzleState {
-	//updatedState := currentState.state
+func isValidSlot(row int, col int, currentState PuzzleState) bool {
+	// Returns true if the given row and column is a valid slot (exists and is not ".")
+	// Check for invalid cases: row or column are out of bounds or the cell is not an actual slot
+	isValidRow := row >= 0 && row < currentState.rows
+	isValidCol := col >= 0 && col < currentState.columns
+	if !isValidRow || !isValidCol || currentState.state[row][col] == "." {
+		return false
+	}
 
-	return createNewPuzzleState(currentState.relicsUsed+1, currentState.state)
+	return true
 }
+
+func turnRelicLeft(row int, col int, currentState PuzzleState) PuzzleState {
+	// Activate all 8 valid slots surrounding the current slot
+	// Create new updated state and set the current cell to "L" to signify a relic turned left
+	updatedState := currentState.state
+	updatedState[row][col] = "L"
+	coordChanges := [][]int{
+		{-1, -1}, {-1, 0}, {-1, 1},
+		{0, -1}, {0, 1},
+		{1, -1}, {1, 0}, {1, 1},
+	}
+
+	// Change all the valid points surrounding the relic
+	for _, change := range coordChanges {
+		// If the shifted position is valid then set the slot to activated in the updated state
+		newRow := row + change[0]
+		newCol := col + change[1]
+		if isValidSlot(newRow, newCol, currentState) {
+			updatedState[newRow][newCol] = "1"
+		}
+	}
+
+	// Return a new PuzzleState with the updated number of relics used and the new state
+	return createNewPuzzleState(currentState.relicsUsed+1, updatedState)
+}
+
 func turnRelicRight() {}
 func getSuccessors()  {}
 
 func main() {
 	fmt.Println(loadPuzzle("3x3Puzzle.txt"))
+	fmt.Println(turnRelicLeft(1, 1, loadPuzzle("GizehPuzzle.txt")))
 }

@@ -40,3 +40,45 @@ func TestLoadPuzzle2x2(t *testing.T) {
 		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
 	}
 }
+
+func TestTurnRelicLeft3x3Middle(t *testing.T) {
+	puzzle := PuzzleState{3, 3, 0,
+		[][]string{
+			{"0", "0", "0"},
+			{"0", "0", "0"},
+			{"0", "0", "0"}},
+		"000|000|000|",
+	}
+
+	// Hardcoded expected value
+	expected := "111|111|111|"
+
+	// Get the actual value
+	actual := turnRelicLeft(1, 1, puzzle).hashableState
+
+	// If the puzzle states are not equal, then raise an error
+	if expected != actual {
+		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
+	}
+}
+
+func TestTurnRelicLeft3x3TopLeft(t *testing.T) {
+	puzzle := PuzzleState{3, 3, 0,
+		[][]string{
+			{"0", "0", "0"},
+			{"0", "0", "0"},
+			{"0", "0", "0"}},
+		"000|000|000|",
+	}
+
+	// Hardcoded expected value
+	expected := "110|110|000|"
+
+	// Get the actual value
+	actual := turnRelicLeft(0, 0, puzzle).hashableState
+
+	// If the puzzle states are not equal, then raise an error
+	if expected != actual {
+		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
+	}
+}
