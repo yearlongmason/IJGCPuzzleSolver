@@ -6,7 +6,7 @@ import (
 
 func TestLoadPuzzle3x3(t *testing.T) {
 	// Hardcoded expected value
-	expected := PuzzleState{3, 3, 0,
+	expected := PuzzleState{0,
 		[][]string{
 			{"0", "0", "0"},
 			{"0", "0", "0"},
@@ -25,7 +25,7 @@ func TestLoadPuzzle3x3(t *testing.T) {
 
 func TestLoadPuzzle2x2(t *testing.T) {
 	// Hardcoded expected value
-	expected := PuzzleState{2, 2, 0,
+	expected := PuzzleState{0,
 		[][]string{
 			{"0", "0"},
 			{"0", "0"}},
@@ -42,7 +42,7 @@ func TestLoadPuzzle2x2(t *testing.T) {
 }
 
 func TestTurnRelicLeft3x3Middle(t *testing.T) {
-	puzzle := PuzzleState{3, 3, 0,
+	puzzle := PuzzleState{0,
 		[][]string{
 			{"0", "0", "0"},
 			{"0", "0", "0"},
@@ -63,7 +63,7 @@ func TestTurnRelicLeft3x3Middle(t *testing.T) {
 }
 
 func TestTurnRelicLeft3x3TopLeft(t *testing.T) {
-	puzzle := PuzzleState{3, 3, 0,
+	puzzle := PuzzleState{0,
 		[][]string{
 			{"0", "0", "0"},
 			{"0", "0", "0"},

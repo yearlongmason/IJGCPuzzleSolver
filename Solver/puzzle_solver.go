@@ -8,9 +8,20 @@ import (
 )
 
 type PuzzleState struct {
-	rows, columns, relicsUsed int
-	state                     [][]string
-	hashableState             string
+	relicsUsed    int
+	state         [][]string
+	hashableState string
+}
+
+func (puzzleState PuzzleState) getNumRows() int {
+	// Getter for the number of rows in a puzzle
+	return len(puzzleState.state)
+}
+
+func (puzzleState PuzzleState) getNumColumns() int {
+	// Getter for finding the number of columns in a puzzle state
+	// This assumes that all columns are the same number of rows which they should be
+	return len(puzzleState.state[0])
 }
 
 func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
@@ -30,8 +41,6 @@ func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
 	}
 
 	return PuzzleState{
-		rows:          len(state),
-		columns:       len(state[0]),
 		relicsUsed:    relicsUsed,
 		state:         state,
 		hashableState: hashableState.String(),
@@ -67,8 +76,8 @@ func loadPuzzle(fileName string) PuzzleState {
 func puzzleStatesEqual(state1 PuzzleState, state2 PuzzleState) bool {
 	// Return true if the puzzle states are equal, otherwise return false
 	// Make sure all puzzle state attributes are equal
-	rowsEqual := state1.rows == state2.rows
-	columnsEqual := state1.columns == state2.columns
+	rowsEqual := state1.getNumRows() == state2.getNumRows()
+	columnsEqual := state1.getNumColumns() == state2.getNumColumns()
 	relicsUsedEqual := state1.relicsUsed == state2.relicsUsed
 	hashableStateEqual := state1.hashableState == state2.hashableState
 	if !rowsEqual || !columnsEqual || !relicsUsedEqual || !hashableStateEqual {
@@ -77,7 +86,7 @@ func puzzleStatesEqual(state1 PuzzleState, state2 PuzzleState) bool {
 
 	// Loop through each row in both puzzle states and check if they are equal
 	// If they are not equal then return false
-	for i := 0; i < state1.rows; i++ {
+	for i := 0; i < state1.getNumRows(); i++ {
 		if !slices.Equal(state1.state[i], state2.state[i]) {
 			return false
 		}
@@ -88,8 +97,8 @@ func puzzleStatesEqual(state1 PuzzleState, state2 PuzzleState) bool {
 func isValidSlot(row int, col int, currentState PuzzleState) bool {
 	// Returns true if the given row and column is a valid slot (exists and is not ".")
 	// Check for invalid cases: row or column are out of bounds or the cell is not an actual slot
-	isValidRow := row >= 0 && row < currentState.rows
-	isValidCol := col >= 0 && col < currentState.columns
+	isValidRow := row >= 0 && row < currentState.getNumRows()
+	isValidCol := col >= 0 && col < currentState.getNumColumns()
 	if !isValidRow || !isValidCol || currentState.state[row][col] == "." {
 		return false
 	}
