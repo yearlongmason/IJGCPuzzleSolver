@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"slices"
 )
 
@@ -100,19 +99,43 @@ func turnRelicRight(row int, col int, currentState PuzzleState) PuzzleState {
 	return createNewPuzzleState(currentState.relicsUsed+1, updatedState)
 }
 
-func getSuccessors() {}
+func getSuccessors(currentState PuzzleState) []PuzzleState {
+	// Return a slice of all successors which is a new PuzzleState with
+	// a relic in each slot turned left and right for each valid slot
+	successors := make([]PuzzleState, 0)
+
+	for rowIndex, row := range currentState.state {
+		for colIndex, slotStatus := range row {
+			// Check to make sure there is not already a relic in that spot
+			// and that it is a valid slot
+			slotHasRelic := slices.Contains([]string{"L", "R"}, slotStatus)
+			if slotHasRelic || !isValidSlot(rowIndex, colIndex, currentState) {
+				continue
+			}
+
+			// Append 2 new states:
+			// One where a relic is inserted and turned to the left
+			// One where a relic is inserted and turned to the right
+			successors = append(successors, turnRelicLeft(rowIndex, colIndex, currentState))
+			successors = append(successors, turnRelicRight(rowIndex, colIndex, currentState))
+		}
+	}
+
+	return successors
+}
 
 func main() {
 	//fmt.Println(loadPuzzle("3x3Puzzle.txt"))
 	//fmt.Println(turnRelicLeft(1, 1, loadPuzzle("GizehPuzzle.txt")))
-	puzzle5x5 := createNewPuzzleState(0, [][]string{
-		{"0", "0", "0", "0", "0"},
-		{"0", "0", "0", "0", "0"},
-		{"0", "0", "0", "0", "0"},
-		{"0", "0", "0", "0", "0"},
-		{"0", "0", "0", "0", "0"}})
-	puzzle5x5 = turnRelicRight(2, 2, puzzle5x5)
+	// puzzle5x5 := createNewPuzzleState(0, [][]string{
+	// {"0", "0", "0", "0", "0"},
+	// {"0", "0", "0", "0", "0"},
+	// {"0", "0", "0", "0", "0"},
+	// {"0", "0", "0", "0", "0"},
+	// {"0", "0", "0", "0", "0"}})
+	//puzzle5x5 = turnRelicRight(2, 2, puzzle5x5)
 	//puzzle5x5 = turnRelicLeft(1, 1, puzzle5x5)
-	puzzle5x5.printPuzzleState()
-	fmt.Println(puzzle5x5.getHashableState())
+	//puzzle5x5.printPuzzleState()
+	//fmt.Println(puzzle5x5.getHashableState())
+	//puzzle2x2 := loadPuzzle("2x2Puzzle.txt")
 }
