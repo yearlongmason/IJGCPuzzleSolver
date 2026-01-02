@@ -48,10 +48,10 @@ func TestTurnRelicLeft3x3Middle(t *testing.T) {
 	}
 
 	// Hardcoded expected value
-	expected := "111|111|111|"
+	expected := "111|1L1|111|"
 
 	// Get the actual value
-	actual := turnRelicLeft(1, 1, puzzle).getHashableState()
+	actual := turnRelicLeft(1, 1, puzzle).getStateString()
 
 	// If the puzzle states are not equal, then raise an error
 	if expected != actual {
@@ -68,10 +68,10 @@ func TestTurnRelicLeft3x3MiddleBlocked(t *testing.T) {
 	}
 
 	// Hardcoded expected value
-	expected := ".11|11.|1.1|"
+	expected := ".11|1L.|1.1|"
 
 	// Get the actual value
-	actual := turnRelicLeft(1, 1, puzzle3x3).getHashableState()
+	actual := turnRelicLeft(1, 1, puzzle3x3).getStateString()
 
 	// If the puzzle states are not equal, then raise an error
 	if expected != actual {
@@ -88,10 +88,10 @@ func TestTurnRelicLeft3x3TopLeft(t *testing.T) {
 	}
 
 	// Hardcoded expected value
-	expected := "110|110|000|"
+	expected := "L10|110|000|"
 
 	// Get the actual value
-	actual := turnRelicLeft(0, 0, puzzle3x3).getHashableState()
+	actual := turnRelicLeft(0, 0, puzzle3x3).getStateString()
 
 	// If the puzzle states are not equal, then raise an error
 	if expected != actual {
@@ -108,10 +108,10 @@ func TestTurnRelicRight5x5Middle(t *testing.T) {
 		{"0", "0", "0", "0", "0"}})
 
 	// Hardcoded expected value
-	expected := "00100|00100|11111|00100|00100|"
+	expected := "00100|00100|11R11|00100|00100|"
 
 	// Get the actual value
-	actual := turnRelicRight(2, 2, puzzle5x5).getHashableState()
+	actual := turnRelicRight(2, 2, puzzle5x5).getStateString()
 
 	// If the puzzle states are not equal, then raise an error
 	if expected != actual {
@@ -128,10 +128,10 @@ func TestTurnRelicRight5x5MiddleBlocked(t *testing.T) {
 		{"0", "0", "0", "0", "0"}})
 
 	// Hardcoded expected value
-	expected := "00000|00.00|0.1.0|00.00|00000|"
+	expected := "00000|00.00|0.R.0|00.00|00000|"
 
 	// Get the actual value
-	actual := turnRelicRight(2, 2, puzzle5x5).getHashableState()
+	actual := turnRelicRight(2, 2, puzzle5x5).getStateString()
 
 	// If the puzzle states are not equal, then raise an error
 	if expected != actual {

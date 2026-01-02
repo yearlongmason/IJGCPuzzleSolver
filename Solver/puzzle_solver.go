@@ -125,17 +125,13 @@ func getSuccessors(currentState PuzzleState) []PuzzleState {
 }
 
 func main() {
-	//fmt.Println(loadPuzzle("3x3Puzzle.txt"))
-	//fmt.Println(turnRelicLeft(1, 1, loadPuzzle("GizehPuzzle.txt")))
-	// puzzle5x5 := createNewPuzzleState(0, [][]string{
-	// {"0", "0", "0", "0", "0"},
-	// {"0", "0", "0", "0", "0"},
-	// {"0", "0", "0", "0", "0"},
-	// {"0", "0", "0", "0", "0"},
-	// {"0", "0", "0", "0", "0"}})
-	//puzzle5x5 = turnRelicRight(2, 2, puzzle5x5)
-	//puzzle5x5 = turnRelicLeft(1, 1, puzzle5x5)
-	//puzzle5x5.printPuzzleState()
-	//fmt.Println(puzzle5x5.getHashableState())
-	//puzzle2x2 := loadPuzzle("2x2Puzzle.txt")
+	puzzle5x5 := createNewPuzzleState(0, [][]string{
+		{"0", "0", "0", "0", "0"},
+		{"0", "0", "0", "0", "0"},
+		{"0", "0", "0", "0", "0"},
+		{"0", "0", "0", "0", "0"},
+		{"0", "0", "0", "0", "0"}})
+	puzzle5x5 = turnRelicRight(2, 2, puzzle5x5)
+	puzzle5x5 = turnRelicLeft(1, 1, puzzle5x5)
+	puzzle5x5.printPuzzleState()
 }
