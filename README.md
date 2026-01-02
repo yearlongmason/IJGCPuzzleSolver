@@ -7,7 +7,7 @@ This is a puzzle solver for the ancient relic puzzles in the game Indiana Jones 
 
 Throughout the game you collect ancient relics: 
 
-[ancient relic image]
+![Ancient Relic](assets/AncientRelic.png)
 
 At 3 different points in the game there are logic puzzles that use the ancient relics to fill in a grid. Here is an example of the first puzzle that can be found in Gizeh, Egypt:
 
