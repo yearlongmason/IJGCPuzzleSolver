@@ -162,3 +162,46 @@ func TestGetSuccessors2x2(t *testing.T) {
 		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
 	}
 }
+
+func TestGetSuccessors2x2WithOneFilled(t *testing.T) {
+	puzzle2x2 := createNewPuzzleState(0, [][]string{
+		{"1", "0"},
+		{"0", "0"}})
+
+	// Hardcoded expected value
+	expected := []string{"R1|10|", "1R|01|", "10|R1|", "11|1R|",
+		"L1|11|", "1L|11|", "11|L1|", "11|1L|"}
+
+	// Get actual values
+	actual := make([]string, 0)
+	for _, successor := range getSuccessors(puzzle2x2) {
+		actual = append(actual, successor.getStateString())
+	}
+
+	// Sort slices and check if they are equal
+	slices.Sort(expected)
+	slices.Sort(actual)
+	if !slices.Equal(expected, actual) {
+		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
+	}
+}
+
+func TestNoSuccessors(t *testing.T) {
+	puzzle2x2 := createNewPuzzleState(0, [][]string{
+		{"L", "L"},
+		{"L", "L"}})
+
+	// Hardcoded expected value
+	expected := make([]string, 0)
+
+	// Get actual values
+	actual := make([]string, 0)
+	for _, successor := range getSuccessors(puzzle2x2) {
+		actual = append(actual, successor.getStateString())
+	}
+
+	// Check that both are empty
+	if !slices.Equal(expected, actual) {
+		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
+	}
+}
