@@ -78,12 +78,8 @@ func (puzzleState PuzzleState) printPuzzleState() {
 
 func puzzleStatesEqual(state1 PuzzleState, state2 PuzzleState) bool {
 	// Return true if the puzzle states are equal, otherwise return false
-	// Make sure all puzzle state attributes are equal
-	rowsEqual := state1.getNumRows() == state2.getNumRows()
-	columnsEqual := state1.getNumColumns() == state2.getNumColumns()
-	hashableStateEqual := state1.getSlotStatusesString() == state2.getSlotStatusesString()
 	relicsUsedEqual := state1.relicsUsed == state2.relicsUsed
-	if !rowsEqual || !columnsEqual || !relicsUsedEqual || !hashableStateEqual {
+	if !relicsUsedEqual {
 		return false
 	}
 
