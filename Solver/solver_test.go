@@ -1,6 +1,7 @@
 package main
 
 import (
+	"slices"
 	"testing"
 )
 
@@ -135,6 +136,29 @@ func TestTurnRelicRight5x5MiddleBlocked(t *testing.T) {
 
 	// If the puzzle states are not equal, then raise an error
 	if expected != actual {
+		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
+	}
+}
+
+func TestGetSuccessors2x2(t *testing.T) {
+	puzzle2x2 := createNewPuzzleState(0, [][]string{
+		{"0", "0"},
+		{"0", "0"}})
+
+	// Hardcoded expected value
+	expected := []string{"R1|10|", "1R|01|", "10|R1|", "01|1R|",
+		"L1|11|", "1L|11|", "11|L1|", "11|1L|"}
+
+	// Get actual values
+	actual := make([]string, 0)
+	for _, successor := range getSuccessors(puzzle2x2) {
+		actual = append(actual, successor.getStateString())
+	}
+
+	// Sort slices and check if they are equal
+	slices.Sort(expected)
+	slices.Sort(actual)
+	if !slices.Equal(expected, actual) {
 		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
 	}
 }
