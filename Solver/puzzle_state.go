@@ -12,6 +12,14 @@ type PuzzleState struct {
 	state      [][]string
 }
 
+func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
+	// Create and return a new PuzzleState
+	return PuzzleState{
+		relicsUsed: relicsUsed,
+		state:      state,
+	}
+}
+
 func (puzzleState PuzzleState) getNumRows() int {
 	// Getter for the number of rows in a puzzle
 	return len(puzzleState.state)
@@ -58,7 +66,7 @@ func (puzzleState PuzzleState) copy() PuzzleState {
 	// Return a copy of the PuzzleState
 	copiedState := make([][]string, 0)
 
-	// Deepcopy the puzzle state to avoid copying a reference to the array
+	// "Deepcopy" the puzzle state to avoid copying a reference to the array
 	for rowIndex, row := range puzzleState.state {
 		copiedState = append(copiedState, make([]string, 0))
 		for _, character := range row {
@@ -66,11 +74,11 @@ func (puzzleState PuzzleState) copy() PuzzleState {
 		}
 	}
 
-	return PuzzleState{puzzleState.relicsUsed, copiedState}
+	return createNewPuzzleState(puzzleState.relicsUsed, copiedState)
 }
 
 func (puzzleState PuzzleState) printPuzzleState() {
-	// Getter for the number of rows in a puzzle
+	// Nicely print out the current PuzzleState
 	for _, row := range puzzleState.state {
 		fmt.Println(strings.Join(row, ""))
 	}
@@ -103,14 +111,6 @@ func isValidSlot(row int, col int, currentState PuzzleState) bool {
 	}
 
 	return true
-}
-
-func createNewPuzzleState(relicsUsed int, state [][]string) PuzzleState {
-	// Create and return a new puzzle state given the relics used and the state of the puzzle
-	return PuzzleState{
-		relicsUsed: relicsUsed,
-		state:      state,
-	}
 }
 
 func loadPuzzle(fileName string) PuzzleState {
