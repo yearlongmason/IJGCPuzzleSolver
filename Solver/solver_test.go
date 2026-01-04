@@ -1,6 +1,7 @@
 package main
 
 import (
+	"container/heap"
 	"slices"
 	"testing"
 )
@@ -202,6 +203,24 @@ func TestNoSuccessors(t *testing.T) {
 
 	// Check that both are empty
 	if !slices.Equal(expected, actual) {
+		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
+	}
+}
+
+func TestPuzzleStatePriorityQueue(t *testing.T) {
+	// Create priority queue and fill with
+	priorityQueue := &PuzzleStatePriorityQueue{}
+	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"0", "0"}, {"0", "0"}}))
+	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"1", "0"}, {"0", "0"}}))
+	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"1", "1"}, {"0", "0"}}))
+	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"R", "1"}, {"1", "0"}}))
+	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"L", "1"}, {"1", "1"}}))
+
+	// Expect to get the puzzle state with the most
+	expected := "L1|11|"
+	actual := heap.Pop(priorityQueue).(PuzzleState).getStateString()
+
+	if expected != actual {
 		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
 	}
 }

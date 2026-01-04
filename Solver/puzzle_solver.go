@@ -1,9 +1,47 @@
 package main
 
 import (
+	"container/heap"
 	"fmt"
 	"slices"
 )
+
+type PuzzleStatePriorityQueue []PuzzleState
+
+// All functions required to implement heap.Interface
+func (q PuzzleStatePriorityQueue) Len() int      { return len(q) }
+func (q PuzzleStatePriorityQueue) Swap(i, j int) { q[i], q[j] = q[j], q[i] }
+func (q PuzzleStatePriorityQueue) Less(i, j int) bool {
+	return getPuzzleStateHeuristic(q[i]) < getPuzzleStateHeuristic(q[j])
+}
+func (q *PuzzleStatePriorityQueue) Push(newPuzzleState any) {
+	*q = append(*q, newPuzzleState.(PuzzleState))
+}
+func (q *PuzzleStatePriorityQueue) Pop() any {
+	// Pop a puzzle state off the end, and return it
+	n := len(*q)
+	oldPriorityQueue := *q
+	poppedPuzzleState := oldPriorityQueue[n-1]
+	*q = oldPriorityQueue[:n-1]
+	return poppedPuzzleState
+}
+
+func getPuzzleStateHeuristic(puzzleState PuzzleState) int {
+	// Add 1 for each activated slot. Return heuristic (int)
+	heuristic := 0
+
+	activatedSlots := []string{"1", "L", "R"}
+	for _, row := range puzzleState.state {
+		for _, character := range row {
+			if slices.Contains(activatedSlots, character) {
+				heuristic += 1
+			}
+		}
+	}
+
+	// Multiply by negative 1 because we want to maximize the number of activated slots
+	return heuristic * -1
+}
 
 func turnRelicLeft(row int, col int, currentState PuzzleState) PuzzleState {
 	// Activate all 8 valid slots surrounding the current slot and return a new PuzzleState
@@ -129,7 +167,7 @@ func getSuccessors(currentState PuzzleState) []PuzzleState {
 	return successors
 }
 
-func findShortestSolution(startPuzzleState PuzzleState) PuzzleState {
+func findShortestSolutionBFS(startPuzzleState PuzzleState) PuzzleState {
 	// Use bfs to find the solution with the least possible relics
 	queue := []PuzzleState{startPuzzleState}
 	explored := map[string]bool{startPuzzleState.getSlotStatusesString(): true}
@@ -159,8 +197,16 @@ func findShortestSolution(startPuzzleState PuzzleState) PuzzleState {
 }
 
 func main() {
-	puzzle := loadPuzzle("GizehPuzzle.txt")
-	puzzle = findShortestSolution(puzzle)
-	puzzle.printPuzzleState()
-	fmt.Println(puzzle.relicsUsed)
+	// puzzle := loadPuzzle("5x5Puzzle.txt")
+	// puzzle = findShortestSolutionBFS(puzzle)
+	// puzzle.printPuzzleState()
+	// fmt.Println(puzzle.relicsUsed)
+	priorityQueue := &PuzzleStatePriorityQueue{}
+	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"0", "0"}, {"0", "0"}}))
+	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"1", "0"}, {"0", "0"}}))
+	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"1", "1"}, {"0", "0"}}))
+	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"1", "1"}, {"1", "0"}}))
+	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"1", "1"}, {"1", "1"}}))
+	fmt.Println(priorityQueue)
+	fmt.Println(heap.Pop(priorityQueue))
 }
