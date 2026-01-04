@@ -26,7 +26,7 @@ func (puzzleState PuzzleState) getNumColumns() int {
 func (puzzleState PuzzleState) getSlotStatusesString() string {
 	// Create a string representation of the slot statuses from the state slice
 	// We only want the slot status so replace relics with "1"
-	var hashableState strings.Builder
+	var slotStatusesString strings.Builder
 	for _, row := range puzzleState.state {
 		// Get the current row, and replace all instances of "L" and "R" with "1"
 		currentRow := strings.Join(row, "")
@@ -34,24 +34,24 @@ func (puzzleState PuzzleState) getSlotStatusesString() string {
 		currentRow = strings.ReplaceAll(currentRow, "R", "1")
 
 		// Build on existing string
-		hashableState.WriteString(currentRow)
-		hashableState.WriteString("|") // Add separator between rows
+		slotStatusesString.WriteString(currentRow)
+		slotStatusesString.WriteString("|") // Add separator between rows
 	}
 
-	return hashableState.String()
+	return slotStatusesString.String()
 }
 
 func (puzzleState PuzzleState) getStateString() string {
 	// Create a string representation of the state from the state slice
 	// We want to know where the relics are too, so keep in "L" and "R"
-	var hashableState strings.Builder
+	var stateString strings.Builder
 	for _, row := range puzzleState.state {
 		// Build on existing string
-		hashableState.WriteString(strings.Join(row, ""))
-		hashableState.WriteString("|") // Add separator between rows
+		stateString.WriteString(strings.Join(row, ""))
+		stateString.WriteString("|") // Add separator between rows
 	}
 
-	return hashableState.String()
+	return stateString.String()
 }
 
 func (puzzleState PuzzleState) copy() PuzzleState {
