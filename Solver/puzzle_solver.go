@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"slices"
 )
 
@@ -10,6 +11,7 @@ func turnRelicLeft(row int, col int, currentState PuzzleState) PuzzleState {
 	newPuzzleState := currentState.copy()
 	updatedState := newPuzzleState.state
 	updatedState[row][col] = "L"
+	newPuzzleState.relicsUsed += 1
 	coordChanges := [][]int{
 		{-1, -1}, {-1, 0}, {-1, 1},
 		{0, -1}, {0, 1},
@@ -41,6 +43,7 @@ func turnRelicRight(row int, col int, currentState PuzzleState) PuzzleState {
 	newPuzzleState := currentState.copy()
 	updatedState := newPuzzleState.state
 	updatedState[row][col] = "R"
+	newPuzzleState.relicsUsed += 1
 
 	// Mark all slots on the row as activated until an invalid slot is hit
 	// Look at entire row ahead
@@ -126,14 +129,38 @@ func getSuccessors(currentState PuzzleState) []PuzzleState {
 	return successors
 }
 
+func findShortestSolution(startPuzzleState PuzzleState) PuzzleState {
+	// Use bfs to find the solution with the least possible relics
+	queue := []PuzzleState{startPuzzleState}
+	explored := map[string]bool{startPuzzleState.getSlotStatusesString(): true}
+
+	// Continue looping until there is nothing left in the queue
+	for len(queue) != 0 {
+		currentPuzzleState := queue[0]
+		queue = queue[1:]
+
+		for _, successor := range getSuccessors(currentPuzzleState) {
+			// Check if the successor is the solved state
+			if isSolved(successor) {
+				return successor
+			}
+
+			// Only if we have not already seen a state with this formation of activated slots
+			if !explored[successor.getSlotStatusesString()] {
+				// Mark as explored and add the PuzzleState to the queue
+				explored[successor.getSlotStatusesString()] = true
+				queue = append(queue, successor)
+			}
+		}
+	}
+
+	// This will never run since it is impossible to make an unsolvable ancient relic puzzle
+	return startPuzzleState
+}
+
 func main() {
-	puzzle5x5 := createNewPuzzleState(0, [][]string{
-		{"0", "0", "0", "0", "0"},
-		{"0", "0", "0", "0", "0"},
-		{"0", "0", "0", "0", "0"},
-		{"0", "0", "0", "0", "0"},
-		{"0", "0", "0", "0", "0"}})
-	puzzle5x5 = turnRelicRight(2, 2, puzzle5x5)
-	puzzle5x5 = turnRelicLeft(1, 1, puzzle5x5)
-	puzzle5x5.printPuzzleState()
+	puzzle := loadPuzzle("GizehPuzzle.txt")
+	puzzle = findShortestSolution(puzzle)
+	puzzle.printPuzzleState()
+	fmt.Println(puzzle.relicsUsed)
 }

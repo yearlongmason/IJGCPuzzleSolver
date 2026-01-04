@@ -113,6 +113,19 @@ func isValidSlot(row int, col int, currentState PuzzleState) bool {
 	return true
 }
 
+func isSolved(puzzleState PuzzleState) bool {
+	// Return true if the puzzle is solved, otherwise return false
+	for _, row := range puzzleState.state {
+		for _, character := range row {
+			if character == "0" {
+				return false
+			}
+		}
+	}
+
+	return true
+}
+
 func loadPuzzle(fileName string) PuzzleState {
 	// Load a puzzle from a file and return the puzzle state
 	stringPuzzleState, err := os.ReadFile("../Puzzles/" + fileName)
