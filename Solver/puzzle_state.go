@@ -54,6 +54,21 @@ func (puzzleState PuzzleState) getStateString() string {
 	return hashableState.String()
 }
 
+func (puzzleState PuzzleState) copy() PuzzleState {
+	// Return a copy of the PuzzleState
+	copiedState := make([][]string, 0)
+
+	// Deepcopy the puzzle state to avoid copying a reference to the array
+	for rowIndex, row := range puzzleState.state {
+		copiedState = append(copiedState, make([]string, 0))
+		for _, character := range row {
+			copiedState[rowIndex] = append(copiedState[rowIndex], character)
+		}
+	}
+
+	return PuzzleState{puzzleState.relicsUsed, copiedState}
+}
+
 func (puzzleState PuzzleState) printPuzzleState() {
 	// Getter for the number of rows in a puzzle
 	for _, row := range puzzleState.state {

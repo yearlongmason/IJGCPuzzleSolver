@@ -7,7 +7,8 @@ import (
 func turnRelicLeft(row int, col int, currentState PuzzleState) PuzzleState {
 	// Activate all 8 valid slots surrounding the current slot and return a new PuzzleState
 	// Create new updated state and set the current cell to "L" to signify a relic turned left
-	updatedState := currentState.state
+	newPuzzleState := currentState.copy()
+	updatedState := newPuzzleState.state
 	updatedState[row][col] = "L"
 	coordChanges := [][]int{
 		{-1, -1}, {-1, 0}, {-1, 1},
@@ -31,13 +32,14 @@ func turnRelicLeft(row int, col int, currentState PuzzleState) PuzzleState {
 	}
 
 	// Return a new PuzzleState with the updated number of relics used and the new state
-	return createNewPuzzleState(currentState.relicsUsed+1, updatedState)
+	return newPuzzleState
 }
 
 func turnRelicRight(row int, col int, currentState PuzzleState) PuzzleState {
 	// Activate all slots on the same row and column until an invalid slot is hit
 	// Return a new PuzzleState
-	updatedState := currentState.state
+	newPuzzleState := currentState.copy()
+	updatedState := newPuzzleState.state
 	updatedState[row][col] = "R"
 
 	// Mark all slots on the row as activated until an invalid slot is hit
@@ -96,7 +98,7 @@ func turnRelicRight(row int, col int, currentState PuzzleState) PuzzleState {
 		}
 	}
 
-	return createNewPuzzleState(currentState.relicsUsed+1, updatedState)
+	return newPuzzleState
 }
 
 func getSuccessors(currentState PuzzleState) []PuzzleState {
