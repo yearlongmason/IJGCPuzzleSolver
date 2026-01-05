@@ -41,7 +41,7 @@ func getPuzzleStateHeuristic(puzzleState PuzzleState) int {
 
 	// Define some weight to incentivise using less relics
 	// If this weight is too high it will eventually devolve back into BFS
-	relicUsedWeight := 5
+	relicUsedWeight := 0
 
 	// Multiply by negative 1 because we want to maximize the number of activated slots
 	return (heuristic * -1) + (puzzleState.relicsUsed * relicUsedWeight)
@@ -230,15 +230,36 @@ func findSolutionAStar(startPuzzleState PuzzleState) PuzzleState {
 }
 
 func main() {
-	puzzle := loadPuzzle("GizehPuzzle.txt")
+	METHOD := "A*"
+	PUZZLE_NAMES := []string{"2x2", "3x3", "5x5", "Gizeh",
+		"Sukhothai", "Ziggurat Part 1", "Ziggurat Part 2",
+		"Ziggurat Part 3", "Ziggurat Part 4"}
+	PUZZLES := map[string]PuzzleState{
+		"2x2":             loadPuzzle("2x2Puzzle.txt"),
+		"3x3":             loadPuzzle("3x3Puzzle.txt"),
+		"5x5":             loadPuzzle("5x5Puzzle.txt"),
+		"Gizeh":           loadPuzzle("GizehPuzzle.txt"),
+		"Sukhothai":       loadPuzzle("SukhothaiPuzzle.txt"),
+		"Ziggurat Part 1": loadPuzzle("ZigguratPuzzlePart1.txt"),
+		"Ziggurat Part 2": loadPuzzle("ZigguratPuzzlePart2.txt"),
+		"Ziggurat Part 3": loadPuzzle("ZigguratPuzzlePart3.txt"),
+		"Ziggurat Part 4": loadPuzzle("ZigguratPuzzlePart4.txt"),
+	}
 
-	// fmt.Println("BFS:")
-	// puzzleBFS := findSolutionBFS(puzzle)
-	// puzzleBFS.printPuzzleState()
-	// fmt.Println(puzzleBFS.relicsUsed)
+	var solvedPuzzle PuzzleState
+	fmt.Printf("%s Solutions:\n\n", METHOD)
+	for _, puzzleName := range PUZZLE_NAMES {
+		// Print the puzzle name, the solved puzzle, and the number of relics it used
+		fmt.Printf("%s:\n", puzzleName)
 
-	fmt.Println("\nA*:")
-	puzzleAStar := findSolutionAStar(puzzle)
-	puzzleAStar.printPuzzleState()
-	fmt.Println(puzzleAStar.relicsUsed)
+		// Solve puzzle based on method
+		if METHOD == "A*" {
+			solvedPuzzle = findSolutionAStar(PUZZLES[puzzleName])
+		} else {
+			solvedPuzzle = findSolutionBFS(PUZZLES[puzzleName])
+		}
+
+		solvedPuzzle.printPuzzleState()
+		fmt.Printf("Relics used: %v\n\n", solvedPuzzle.relicsUsed)
+	}
 }
