@@ -180,6 +180,7 @@ func findShortestSolutionBFS(startPuzzleState PuzzleState) PuzzleState {
 		for _, successor := range getSuccessors(currentPuzzleState) {
 			// Check if the successor is the solved state
 			if isSolved(successor) {
+				fmt.Println(len(queue))
 				return successor
 			}
 
@@ -196,17 +197,46 @@ func findShortestSolutionBFS(startPuzzleState PuzzleState) PuzzleState {
 	return startPuzzleState
 }
 
-func main() {
-	// puzzle := loadPuzzle("5x5Puzzle.txt")
-	// puzzle = findShortestSolutionBFS(puzzle)
-	// puzzle.printPuzzleState()
-	// fmt.Println(puzzle.relicsUsed)
+func findShortestSolutionAStar(startPuzzleState PuzzleState) PuzzleState {
+	// Use A* to find a solution (does not return solution with least possible relics)
 	priorityQueue := &PuzzleStatePriorityQueue{}
-	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"0", "0"}, {"0", "0"}}))
-	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"1", "0"}, {"0", "0"}}))
-	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"1", "1"}, {"0", "0"}}))
-	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"1", "1"}, {"1", "0"}}))
-	heap.Push(priorityQueue, createNewPuzzleState(0, [][]string{{"1", "1"}, {"1", "1"}}))
-	fmt.Println(priorityQueue)
-	fmt.Println(heap.Pop(priorityQueue))
+	heap.Push(priorityQueue, startPuzzleState)
+	explored := map[string]bool{startPuzzleState.getSlotStatusesString(): true}
+
+	// Continue looping until there is nothing left in the queue
+	for priorityQueue.Len() != 0 {
+		currentPuzzleState := heap.Pop(priorityQueue)
+
+		for _, successor := range getSuccessors(currentPuzzleState.(PuzzleState)) {
+			// Check if the successor is the solved state
+			if isSolved(successor) {
+				fmt.Println(priorityQueue.Len())
+				return successor
+			}
+
+			// Only if we have not already seen a state with this formation of activated slots
+			if !explored[successor.getSlotStatusesString()] {
+				// Mark as explored and add the PuzzleState to the queue
+				explored[successor.getSlotStatusesString()] = true
+				heap.Push(priorityQueue, successor)
+			}
+		}
+	}
+
+	// This will never run since it is impossible to make an unsolvable ancient relic puzzle
+	return startPuzzleState
+}
+
+func main() {
+	puzzle := loadPuzzle("GizehPuzzle.txt")
+
+	fmt.Println("BFS:")
+	puzzleBFS := findShortestSolutionBFS(puzzle)
+	puzzleBFS.printPuzzleState()
+	fmt.Println(puzzleBFS.relicsUsed)
+
+	fmt.Println("\nA*:")
+	puzzleAStar := findShortestSolutionAStar(puzzle)
+	puzzleAStar.printPuzzleState()
+	fmt.Println(puzzleAStar.relicsUsed)
 }
