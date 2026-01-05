@@ -39,8 +39,12 @@ func getPuzzleStateHeuristic(puzzleState PuzzleState) int {
 		}
 	}
 
+	// Define some weight to incentivise using less relics
+	// If this weight is too high it will eventually devolve back into BFS
+	relicUsedWeight := 5
+
 	// Multiply by negative 1 because we want to maximize the number of activated slots
-	return heuristic * -1
+	return (heuristic * -1) + (puzzleState.relicsUsed * relicUsedWeight)
 }
 
 func turnRelicLeft(row int, col int, currentState PuzzleState) PuzzleState {
@@ -167,7 +171,7 @@ func getSuccessors(currentState PuzzleState) []PuzzleState {
 	return successors
 }
 
-func findShortestSolutionBFS(startPuzzleState PuzzleState) PuzzleState {
+func findSolutionBFS(startPuzzleState PuzzleState) PuzzleState {
 	// Use bfs to find the solution with the least possible relics
 	queue := []PuzzleState{startPuzzleState}
 	explored := map[string]bool{startPuzzleState.getSlotStatusesString(): true}
@@ -197,7 +201,7 @@ func findShortestSolutionBFS(startPuzzleState PuzzleState) PuzzleState {
 	return startPuzzleState
 }
 
-func findShortestSolutionAStar(startPuzzleState PuzzleState) PuzzleState {
+func findSolutionAStar(startPuzzleState PuzzleState) PuzzleState {
 	// Use A* to find a solution (does not return solution with least possible relics)
 	priorityQueue := &PuzzleStatePriorityQueue{}
 	heap.Push(priorityQueue, startPuzzleState)
@@ -230,13 +234,13 @@ func findShortestSolutionAStar(startPuzzleState PuzzleState) PuzzleState {
 func main() {
 	puzzle := loadPuzzle("GizehPuzzle.txt")
 
-	fmt.Println("BFS:")
-	puzzleBFS := findShortestSolutionBFS(puzzle)
-	puzzleBFS.printPuzzleState()
-	fmt.Println(puzzleBFS.relicsUsed)
+	// fmt.Println("BFS:")
+	// puzzleBFS := findSolutionBFS(puzzle)
+	// puzzleBFS.printPuzzleState()
+	// fmt.Println(puzzleBFS.relicsUsed)
 
 	fmt.Println("\nA*:")
-	puzzleAStar := findShortestSolutionAStar(puzzle)
+	puzzleAStar := findSolutionAStar(puzzle)
 	puzzleAStar.printPuzzleState()
 	fmt.Println(puzzleAStar.relicsUsed)
 }
