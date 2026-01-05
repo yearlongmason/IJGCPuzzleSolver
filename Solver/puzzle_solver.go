@@ -184,7 +184,6 @@ func findSolutionBFS(startPuzzleState PuzzleState) PuzzleState {
 		for _, successor := range getSuccessors(currentPuzzleState) {
 			// Check if the successor is the solved state
 			if isSolved(successor) {
-				fmt.Println(len(queue))
 				return successor
 			}
 
@@ -214,7 +213,6 @@ func findSolutionAStar(startPuzzleState PuzzleState) PuzzleState {
 		for _, successor := range getSuccessors(currentPuzzleState.(PuzzleState)) {
 			// Check if the successor is the solved state
 			if isSolved(successor) {
-				fmt.Println(priorityQueue.Len())
 				return successor
 			}
 
