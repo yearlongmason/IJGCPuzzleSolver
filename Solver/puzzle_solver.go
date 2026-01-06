@@ -250,7 +250,7 @@ func main() {
 	fmt.Printf("%s Solutions:\n\n", METHOD)
 	for _, puzzleName := range PUZZLE_NAMES {
 		// Print the puzzle name, the solved puzzle, and the number of relics it used
-		fmt.Printf("%s:\n", puzzleName)
+		fmt.Println(puzzleName + ":")
 
 		// Solve puzzle based on method
 		if METHOD == "A*" {
@@ -260,6 +260,6 @@ func main() {
 		}
 
 		solvedPuzzle.printPuzzleState()
-		fmt.Printf("Relics used: %v\n\n", solvedPuzzle.relicsUsed)
+		fmt.Printf("Relics used: %d\n\n", solvedPuzzle.relicsUsed)
 	}
 }
