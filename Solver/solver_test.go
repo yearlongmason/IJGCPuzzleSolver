@@ -224,3 +224,59 @@ func TestPuzzleStatePriorityQueue(t *testing.T) {
 		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
 	}
 }
+
+func TestBFS2x2(t *testing.T) {
+	puzzle := loadPuzzle("2x2Puzzle.txt")
+
+	// Get the expected and actual number of relics used
+	// Since BFS always finds the best answer it will always be the same
+	expected := 1
+	solution := findSolutionBFS(puzzle)
+	actual := solution.relicsUsed
+
+	if expected != actual {
+		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
+	}
+}
+
+func TestBFS3x3(t *testing.T) {
+	puzzle := loadPuzzle("3x3Puzzle.txt")
+
+	// Get the expected and actual number of relics used
+	// Since BFS always finds the best answer it will always be the same
+	expected := 1
+	solution := findSolutionBFS(puzzle)
+	actual := solution.relicsUsed
+
+	if expected != actual {
+		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
+	}
+}
+
+func TestBFS5x5(t *testing.T) {
+	puzzle := loadPuzzle("5x5Puzzle.txt")
+
+	// Get the expected and actual number of relics used
+	// Since BFS always finds the best answer it will always be the same
+	expected := 3
+	solution := findSolutionBFS(puzzle)
+	actual := solution.relicsUsed
+
+	if expected != actual {
+		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
+	}
+}
+
+func TestBFSGizeh(t *testing.T) {
+	puzzle := loadPuzzle("GizehPuzzle.txt")
+
+	// Get the expected and actual number of relics used
+	// Since BFS always finds the best answer it will always be the same
+	expected := 3
+	solution := findSolutionBFS(puzzle)
+	actual := solution.relicsUsed
+
+	if expected != actual {
+		t.Errorf("Error!\nExpected: %v\nActual:   %v", expected, actual)
+	}
+}
