@@ -4,7 +4,6 @@ This is a puzzle solver for the ancient relic puzzles in the game Indiana Jones 
 ![Indiana Jones and the Great Circle backdrop](assets/IJGCBackdrop.png)
 
 ## Ancient Relic Puzzle Overview
-
 Throughout the game you collect ancient relics: 
 
 ![Ancient Relic](assets/AncientRelic.png)
@@ -29,11 +28,11 @@ This puzzle can be represented as a grid with 8 rows and 4 columns. Here is such
 In the image all the slots are activated but for the purpose of the example, all of the slots are deactivated (marked as 0).
 
 ## Mechanics
-
 To fill in the puzzle, you have to insert one of the relics into a slot. From there you have two options:
 
 1. Turn the relic left to fill all 8 slots surrounding it
 2. Turn the relic to the right to fill in all slots in the same row and column until it hits a wall (spot without a slot)
 
-## Goal
-At the end of the game, you are at a ziggurat (a temple) in Iraq. Inside the ziggurat there is a huge ancient relic puzzle. The goal of this project is to be able to solve that puzzle using as little relics as possible.
+
+## The Ziggurat Puzzle
+The last of the three puzzles take place in a ziggurat (a temple) in Iraq. Inside the ziggurat there is an ancient relic puzzle that takes up a whole wall and is comprised of 3 9x14 grids and one 9x14 grid. Because of it's size it is very hard to solve by hand.
