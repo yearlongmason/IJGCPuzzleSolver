@@ -9,28 +9,31 @@ Throughout the game you collect ancient relics:
 
 ![Ancient Relic](assets/AncientRelic.png)
 
-At 3 different points in the game there are logic puzzles that use the ancient relics to fill in a grid. Here is an example of the first puzzle that can be found in Gizeh, Egypt:
+These relics can be used in 3 locations throughout the game on logic puzzles that use the ancient relics to fill in a grid. Turning relics in different ways on the grid fill in areas differently. Here is an example of the first puzzle that can be found in Gizeh, Egypt:
 
 ![Gizeh Puzzle](assets/GizehPuzzle.png)
 
-The puzzle can also be represented as a grid with 4 columns and 8 rows. Here is such a grid where 0 represents a slot that is not activated, 1 represents a slot that is activated, and . represents the lack of a slot:
+This puzzle can be represented as a grid with 8 rows and 4 columns. Here is such a grid where 0 represents a slot that is not activated, 1 represents a slot that is activated, and . represents the lack of a slot:
 
 ```
-11..
-11..
-1111
-111.
-.1..
-111.
-.111
-.1..
+00..
+00..
+0000
+000.
+.0..
+000.
+.000
+.0..
 ```
 
-In this example all of the slots are activated, that's because in the picture it is already solved. But let's say that they were all empty, which is how the puzzle usually starts. How would you fill it in?
+In the image all the slots are activated but for the purpose of the example, all of the slots are deactivated (marked as 0).
 
 ## Mechanics
 
-Insert one of the relics into a slot. From there you have two options:
+To fill in the puzzle, you have to insert one of the relics into a slot. From there you have two options:
 
 1. Turn the relic left to fill all 8 slots surrounding it
-2. Turn the relic to the right to fill in all slots in the same row and column until it hits an empty slot
+2. Turn the relic to the right to fill in all slots in the same row and column until it hits a wall (spot without a slot)
+
+## Goal
+At the end of the game, you are at a ziggurat (a temple) in Iraq. Inside the ziggurat there is a huge ancient relic puzzle. The goal of this project is to be able to solve that puzzle using as little relics as possible.
