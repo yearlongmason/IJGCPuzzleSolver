@@ -33,6 +33,46 @@ To fill in the puzzle, you have to insert one of the relics into a slot. From th
 1. Turn the relic left to fill all 8 slots surrounding it
 2. Turn the relic to the right to fill in all slots in the same row and column until it hits a wall (spot without a slot)
 
+### Examples
+Here is an empty 5x5 puzzle filled with inactive slots to show visually how the above mechanics work:
+
+```
+00000
+00000
+00000
+00000
+00000
+```
+
+Here is the same puzzle state with a relic turned to the right in the middle:
+```
+00000
+01110
+01R10
+01110
+00000
+```
+
+Once again here is the same puzzle state with a relic turned to the left in the middle:
+```
+00100
+00100
+11L11
+00100
+00100
+```
+
+The least number of relics you can use to solve this puzzle is 3. Here is one of the ways to solve the 5x5 with only 3 relics
+
+Here is the same puzzle state with a relic turned to the right in the middle:
+```
+L1111
+11111
+11R11
+11111
+1111L
+```
+In this solution the relics turned to the left (marked as "L") activate all slots around the perimeter, while the relic in the middle turned to the right activates the remaining slots on the inside.
 
 ## The Ziggurat Puzzle
 The last of the three puzzles take place in a ziggurat (a temple) in Iraq. Inside the ziggurat there is an ancient relic puzzle that takes up a whole wall and is comprised of 3 9x14 grids and one 9x14 grid. Because of it's size it is very hard to solve by hand.
