@@ -75,4 +75,4 @@ L1111
 In this solution the relics turned to the left (marked as "L") activate all slots around the perimeter, while the relic in the middle turned to the right activates the remaining slots on the inside.
 
 ## The Ziggurat Puzzle
-The last of the three puzzles take place in a ziggurat (a temple) in Iraq. Inside the ziggurat there is an ancient relic puzzle that takes up a whole wall and is comprised of 3 9x14 grids and one 9x14 grid. Because of it's size it is very hard to solve by hand.
+The last of the three puzzles take place in a ziggurat (a temple) in Iraq. Inside the ziggurat there is an ancient relic puzzle that takes up a whole wall and is comprised of 3 9x14 grids and one 9x13 grid. Because of it's size it is very hard to solve by hand.
