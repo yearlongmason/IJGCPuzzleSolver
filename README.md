@@ -93,3 +93,5 @@ Part 3:
 
 Part 4: 
 ![Ziggurat Puzzle Part 4](assets/ZigguratPuzzlePart4.png)
+
+With infinite relics these puzzles would be trivial, but there are only 50 ancient relics hidden throughout the entire game. This means that you only have 50 relics to solve all 4 of these puzzle. The goal of this project is to be able to solve the Ziggurat puzzles with 50 or less relics.
