@@ -76,3 +76,20 @@ In this solution the relics turned to the left (marked as "L") activate all slot
 
 ## The Ziggurat Puzzle
 The last of the three puzzles take place in a ziggurat (a temple) in Iraq. Inside the ziggurat there is an ancient relic puzzle that takes up a whole wall and is comprised of 3 9x14 grids and one 9x13 grid. Because of it's size it is very hard to solve by hand.
+
+Here is what the entire puzzle looks like:
+![Ziggurat Puzzle](assets/ZigguratWholePuzzle.png)
+
+Luckily the puzzle is broken up into 4 parts instead of being one continuous puzzle. This means that for the sake of runtime we can solve each part as its own individual puzzle.
+
+Part 1: 
+![Ziggurat Puzzle Part 1](assets/ZigguratPuzzlePart1.png)
+
+Part 2:
+![Ziggurat Puzzle Part 2](assets/ZigguratPuzzlePart2.png)
+
+Part 3: 
+![Ziggurat Puzzle Part 3](assets/ZigguratPuzzlePart3.png)
+
+Part 4: 
+![Ziggurat Puzzle Part 4](assets/ZigguratPuzzlePart4.png)
